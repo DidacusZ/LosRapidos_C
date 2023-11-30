@@ -38,6 +38,23 @@ namespace DAL
             };
 
             modelBuilder.Entity<Usuarios>().HasData(admin);
+
+            //Prestamos-Usuario
+            modelBuilder.Entity<Prestamos>()
+            .HasOne(uno => uno.usuario)
+            .WithMany(muchos => muchos.PrestamoUsuario)
+            .HasForeignKey(uno => uno.id_usuario);
+
+            //Libros-Prestamos
+            modelBuilder.Entity<Libros>()
+            .HasMany(e => e.PrestamosLibros)
+            .WithMany(e => e.LibrosPrestamos)
+            .UsingEntity(
+            "Rel_Prestamos_Libros",
+            r => r.HasOne(typeof(Prestamos)).WithMany().HasForeignKey("id_prestamo").HasPrincipalKey(nameof(Prestamos.id_prestamo)),//poner primero contrario a entidad inicial(Libros)
+            l => l.HasOne(typeof(Libros)).WithMany().HasForeignKey("id_libro").HasPrincipalKey(nameof(Libros.id_libro)),
+            j => j.HasKey("id_libro", "id_prestamo")
+            );
         }
 
     }

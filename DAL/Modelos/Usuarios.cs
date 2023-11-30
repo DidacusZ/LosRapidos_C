@@ -28,7 +28,7 @@ namespace DAL.Modelos
         public DateTime fch_alta_usuario { get; set; }
         //public DateTime fch_baja_usuario { get; set; }
 
-
+        public ICollection<Prestamos> PrestamoUsuario { get; set; }//una usuario puede tener muchos prestamos
 
         #region Constructores
         public Usuarios()
